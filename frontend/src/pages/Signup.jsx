@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { TrackBalance } from '../components';
 
 function Signup() {
   const [name, setName] = useState('');
@@ -67,7 +69,9 @@ function Signup() {
           type="submit"
           className="w-full px-4 py-2 rounded-md bg-green-500 text-white font-bold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400"
         >
-          Sign Up
+          <Link to={TrackBalance}>
+            Sign up
+          </Link>
         </button>
       </form>
     </div>
