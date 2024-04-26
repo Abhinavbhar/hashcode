@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function Signup() {
-  const [name, setName] = useState('');
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -12,14 +11,14 @@ function Signup() {
     setLoading(true);
 
     try {
-      const formdata = { name, email, password };
+      const formdata = {  email, password };
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
+        `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
         formdata
       );
 
       if (response.status === 201) {
-        alert("Welcome , Go to your mail to verify it");
+        alert("Welcome to Expense App");
         localStorage.setItem("token",response.data.token)
         window.location.href = '/dashboard';
       }
@@ -30,7 +29,6 @@ function Signup() {
       
     } finally {
       setLoading(false);
-      setName('');
       setEmail('');
       setPassword('');
     }
@@ -45,20 +43,9 @@ function Signup() {
         </div>
       ) : (
         <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
+            
             <div className="mb-4">
               <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
                 Email
@@ -96,4 +83,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;

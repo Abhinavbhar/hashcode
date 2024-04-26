@@ -5,7 +5,6 @@ import AddExpenses from './AddExpenses';
 const Dashboard = () => {
   return (
     <div>
-      <TrackBalance />
       <AddExpenses />
     </div>
   );
