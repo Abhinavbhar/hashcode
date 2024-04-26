@@ -29,9 +29,6 @@ const HeroSection = () => {
               Pay friends back
             </li>
           </ul>
-          <button className="get-started-btn">Get Started</button>
-
-
         </div>
       </div>
     </section>

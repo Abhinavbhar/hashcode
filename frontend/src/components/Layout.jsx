@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, userData }) => {
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+   setData(userData)
+  }, [userData]);
+
   return (
     <>
-      <Navbar />
+      <Navbar userData={data} />
       {children}
       <Footer />
     </>
