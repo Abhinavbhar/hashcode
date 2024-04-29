@@ -16,8 +16,7 @@ function Login() {
         `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
         formdata
       );
-      // console.log(response)
-
+      
       if (response.status === 201) {
         alert("Welcome to Expense App");
         localStorage.setItem("token",response.data.token)
@@ -39,7 +38,7 @@ function Login() {
     <div className="flex justify-center items-center h-screen bg-gray-100">
       {loading ? (
         <div className="text-center">
-          <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/c4954169321565.5b7d0cbe74d11.gif" alt="Loading..." className="mx-auto mb-4" />
+          <img src="/loading.gif" alt="Loading..." className="mx-auto mb-4" />
           <p className="text-gray-600">Loading...</p>
         </div>
       ) : (

@@ -1,79 +1,97 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { TrackBalance } from '../components';
 
 function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formdata={name,email,password}
-    const response = axios.get('http://localhsot:3000/auth/signup',formdata)
+    setLoading(true);
 
-    // Implement form submission logic here (e.g., send data to server)
-    console.log('Form submitted:', { name, email, password });
+    try {
+      const formdata = { name, email, password };
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
+        formdata
+      );
 
-    // Reset form after submission
-    setName('');
-    setEmail('');
-    setPassword('');
+      if (response.status === 201) {
+        alert("Welcome , Go to your mail to verify it");
+        localStorage.setItem("token",response.data.token)
+        window.location.href = '/dashboard';
+      }
+    
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert("email already in use, please Sign in")
+      
+    } finally {
+      setLoading(false);
+      setName('');
+      setEmail('');
+      setPassword('');
+    }
   };
 
   return (
-    <div className="min-h-screen bg-green-100 flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold text-green-700 mb-10">Sign Up</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-        <div className="w-full flex flex-col">
-          <label htmlFor="name" className="text-sm font-medium text-gray-700">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-green-500"
-          />
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      {loading ? (
+        <div className="text-center">
+          <img src="/loading.gif" alt="Loading..." className="mx-auto mb-4" />
+          <p className="text-gray-600">Loading...</p>
         </div>
-        <div className="w-full flex flex-col">
-          <label htmlFor="email" className="text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-green-500"
-          />
+      ) : (
+        <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+          <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="password" className="block text-gray-700 font-bold mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Sign Up
+            </button>
+          </form>
         </div>
-        <div className="w-full flex flex-col">
-          <label htmlFor="password" className="text-sm font-medium text-gray-700">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-green-500"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full px-4 py-2 rounded-md bg-green-500 text-white font-bold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400"
-        >
-          <Link to={TrackBalance}>
-            Sign up
-          </Link>
-        </button>
-      </form>
+      )}
     </div>
   );
 }
