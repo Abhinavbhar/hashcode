@@ -1,25 +1,42 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 body {
   /* Set background image */
   background-image: url("./landingPageBackground.jpg");
   /* Adjust background image properties */
   background-size: cover; /* Cover the entire viewport */
   background-position: center; /* Center the background image */
+  animation: fadeIn 1s ease-in; /* Fade-in animation for body */
 }
+
 .landing-page {
   display: flex;
   justify-content: space-between;
   align-items: center;
   /* margin-top: 5%; */
+  animation: fadeIn 1s ease-in; /* Fade-in animation for landing page */
 }
 
 .left-content {
   width: 50%;
   padding: 20px;
   margin-left: 10%;
+  animation: fadeIn 1s ease-in; /* Fade-in animation for left content */
 }
+
 .left-content h1 {
   font-size: 80px;
 }
+
 .left-content p {
   font-size: 30px;
 }
@@ -29,7 +46,9 @@ body {
   padding: 20px;
   margin-right: 5%;
   /* Add styling for animated image here */
+  animation: fadeIn 1s ease-in; /* Fade-in animation for right content */
 }
+
 .right-content img {
   width: 100%;
   border-radius: 100%;
@@ -70,11 +89,13 @@ body {
   border-radius: 40px; /* Example margin */
   display: flex; /* Use flexbox for layout */
   flex-direction: column;
+  animation: fadeIn 1s ease-in; /* Fade-in animation for landing page box */
 }
 
 .landing-page {
   flex: 1; /* Make the landing page content fill remaining vertical space */
 }
+
 .navbar {
   background-color: #ffffff00;
 }
@@ -120,5 +141,6 @@ body {
   border-radius: 0.95rem;
   animation: moveHighlight 12s linear infinite;
 }
+
 
 /* Additional styling for icons if needed */

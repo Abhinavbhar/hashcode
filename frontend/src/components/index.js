@@ -8,6 +8,6 @@ import Layout from "./Layout";
 import TrackBalance from "./TrackBalance";
 import AddExpenses from "./AddExpenses";
 import Dashboard from "./Dashboard";
+import About from "./About";
 
-
-export { Navbar,HeroSection,FeedBack,CTA,Footer,LandingPage,Layout,TrackBalance ,AddExpenses,Dashboard}
+export { Navbar,HeroSection,FeedBack,CTA,Footer,LandingPage,Layout,TrackBalance ,AddExpenses,Dashboard,About}
