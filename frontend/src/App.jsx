@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signup from './pages/Signup';
-import { Navbar, LandingPage, Footer, FeedBack, Layout, HeroSection, Dashboard } from './components';
+import { Navbar, LandingPage, Footer, FeedBack, Layout, HeroSection, Dashboard, About } from './components';
 import Login from './pages/Login';
 import axios from 'axios';
 import Dash from './components/Dash';
@@ -45,7 +45,7 @@ function App() {
         <Route path="/feedback" element={<Layout userData={userData}><FeedBack /></Layout>} />
         <Route path="/dashboard/createexpense" element={<Layout userData={userData}><Dashboard /></Layout>} />
         <Route path="/dashboard" element={<Layout userData={userData}><Dash/></Layout>} />
-
+        <Route path="/About" element={<Layout userData={userData}><About /></Layout>} />
       </Routes>
     </Router>
   );

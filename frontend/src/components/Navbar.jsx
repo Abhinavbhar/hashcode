@@ -12,10 +12,18 @@ const Navbar = ({ userData }) => {
     setData(userData)
   }, [userData]);
 
+  const handleLogout = () => {
+    // Clear user data from local storage
+    localStorage.removeItem('userData');
+    localStorage.removeItem('token');
+    // Redirect to the login page
+    window.location.reload();
+  };
+
   return (
     <div>
       <div className='w-full h-[96px] bg-white shadow-sm'>
-        <div className='p-4 md:max-w-[1080px] max-w-[450px] m-auto w-full h-full flex justify-between items-center'>
+        <div className='p-10 md:max-w-[1080px] max-w-[450px] mx-auto w-full h-full flex justify-between items-center'>
           <img src={logo} alt="" srcset="" className='w-[12%] mt-5 rounded-full' />
           <Link to={'/'}><button className='text-3xl mr-80 font-bold'>WI$E</button></Link>
           <div className="flex items-center">
@@ -23,7 +31,9 @@ const Navbar = ({ userData }) => {
               <li className="text-lg">
                 <Link to="/dashboard">Dashboard</Link>
               </li>
-              <li className="text-lg">About</li>
+              <li className="px-5 text-lg">
+                <Link to={"/About"}>About</Link>
+              </li>
             </ul>
           </div>
           {!data.success ? (

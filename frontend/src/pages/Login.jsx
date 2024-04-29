@@ -16,7 +16,7 @@ function Login() {
         `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
         formdata
       );
-
+      
       if (response.status === 201) {
         alert("Welcome to Expense App");
         localStorage.setItem("token",response.data.token)

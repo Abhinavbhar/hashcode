@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const AddExpenses = () => {
   const [showForm, setShowForm] = useState(false);
@@ -11,7 +12,6 @@ const AddExpenses = () => {
 
   const handleToggleForm = () => {
     setShowForm(!showForm);
-    console.log(calculateExpense);
   };
 
   const addUser = (event) => {
@@ -33,18 +33,18 @@ const AddExpenses = () => {
     updatedUsers.splice(index, 1);
     setUsers(updatedUsers);
   };
+
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem('token');
       const data = { users, description, totalAmount };
-  
+
       const sendExpense = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/split`, data, {
         headers: { authorization: token }
       });
-  
+
       if (sendExpense.status === 200 || sendExpense.status === 201) {
         alert("Expense added successfully");
-        console.log(sendExpense.data);
         window.location.href = '/dashboard';
       } else {
         alert("Failed to add expense. Please try again.");
@@ -107,71 +107,73 @@ const AddExpenses = () => {
   };
 
   return (
-    <div className="flex justify-end h-screen item-start">
-      <div
-        className="w-2/6 h-2/4 mr-40 p-4 border border-black rounded-lg"
+    <div className="flex justify-center items-center h-screen">
+      <motion.div
+        className="w-2/3 p-8 border border-black rounded-lg"
         style={{
           backgroundImage: "url('/src/assets/back_track.jpg')",
           backgroundSize: "cover",
         }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        <h1 className="text-4xl font-bold mb-7 ml-20 mt-5">Add Expenses</h1>
-        <div className="flex items-center mb-4">
-          <label htmlFor="description">Description</label>
-          <input
-            type="text"
-            id="description"
-            placeholder="Enter a Description"
-            className="border border-gray-400 rounded-md px-2 py-1 ml-2"
-            required
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-
-        {showForm && (
-          <form onSubmit={addUser} className="mt-5 ml-20">
-            <div className="flex items-center mb-4">
-              <label htmlFor="userName">User Name:</label>
-              <input
-                type="text"
-                id="userName"
-                placeholder="Enter User Name"
-                className="border border-gray-400 rounded-md px-2 py-1 ml-2"
-                required
-              />
-            </div>
-            <div className="flex items-center mb-4">
-              <label htmlFor="amount">Amount:</label>
-              <input
-                type="number"
-                id="amount"
-                placeholder="Enter Amount"
-                className="border border-gray-400 rounded-md px-2 py-1 ml-10"
-                required
-              />
-            </div>
-            <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md">
-              Add User
-            </button>
-            {users.length > 0 && (
-              <ul className="list-none mt-4 ml-2">
-                {users.map((user, index) => (
-                  <li key={index} className="flex items-center mb-2">
-                    <span>{user.amount} - </span>
-                    {user.name}
-                    <button
-                      className="bg-red-500 text-white px-2 py-1 rounded-md ml-10"
-                      onClick={() => removeUser(index)}
-                    >
-                      Remove
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </form>
-        )}
+        <motion.h1 className="text-7xl ml-80 mt-5 font-bold mb-7" style={{ fontFamily: 'cursive' }}>
+          Add Expenses
+        </motion.h1>
+        <form onSubmit={addUser} className={showForm ? 'visible' : 'hidden'}>
+          <div className="flex items-center mb-4">
+            <label htmlFor="description" className="font-bold ml-40 mr-2" style={{ fontSize: '40px' }}>Description:</label>
+            <input
+              type="text"
+              id="description"
+              placeholder="Enter a Description"
+              className="border-4 border-blue-400 rounded-md px-20 py-2"
+              required
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <div className="flex items-center mb-4">
+            <label htmlFor="userName" className="font-bold ml-40 mr-2" style={{ fontSize: '40px' }}>User Name:</label>
+            <input
+              type="text"
+              id="userName"
+              placeholder="Enter User Name"
+              className="border-4 border-blue-400 rounded-md px-20 py-2"
+              required
+            />
+          </div>
+          <div className="flex items-center mb-4">
+            <label htmlFor="amount" className="font-bold ml-40 mr-16" style={{ fontSize: '40px' }}>Amount:</label>
+            <input
+              type="number"
+              id="amount"
+              placeholder="Enter Amount"
+              className="border-4 border-blue-400 rounded-md px-20 py-2"
+              required
+            />
+          </div>
+          <button type="submit" className="bg-green-500 ml-40 text-white px-10 py-4 rounded-md" style={{ fontSize: '20px' }}>
+            Add User
+          </button>
+          {users.length > 0 && (
+            <ul className="list-none ml-20 mt-4" style={{ fontSize: '20px' }}>
+              {users.map((user, index) => (
+                <li key={index} className="flex items-center px-10 mb-2">
+                  <span className='px-10 py-2'>{user.amount} - </span>
+                  {user.name}
+                  <button
+                    className="bg-red-500 text-white px-2 py-1 rounded-md ml-10"
+                    onClick={() => removeUser(index)}
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </form>
 
         {!showForm && (
           <button className="bg-blue-500 text-white px-5 py-2 rounded-md ml-20" onClick={handleToggleForm}>
@@ -179,7 +181,8 @@ const AddExpenses = () => {
           </button>
         )}
 
-        {calculateExpense ? (
+        {/* Render calculated expenses */}
+        {calculateExpense && (
           <div className="mt-4 ml-20">
             <h2 className="text-xl font-bold">Calculated Expenses:</h2>
             <ul className="list-none">
@@ -190,31 +193,34 @@ const AddExpenses = () => {
               ))}
             </ul>
           </div>
-        ) : (
-          <></>
         )}
 
         <div className="mt-4 ml-20">
           <h2 className="text-xl font-bold">Total Expense:</h2>
           <p>{totalAmount.toFixed(2)}</p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Improved buttons design */}
-      <div className="flex flex-col justify-center items-center mr-8">
+      <motion.div
+        className="flex flex-col justify-center items-center ml-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <button
-          className="bg-blue-500 text-white px-5 py-2 rounded-md mb-4"
+          className="bg-blue-500 text-white px-10 py-5 rounded-md mb-4" style={{ fontSize: '30px' }}
           onClick={handleCalculateExpense}
         >
           Calculate Expense
         </button>
         <button
-          className="bg-green-500 text-white px-5 py-2 rounded-md"
+          className="bg-green-500 text-white px-5 py-2 rounded-md" style={{ fontSize: '30px' }}
           onClick={handleSubmit}
         >
           Add to History
         </button>
-      </div>
+      </motion.div>
     </div>
   );
 };

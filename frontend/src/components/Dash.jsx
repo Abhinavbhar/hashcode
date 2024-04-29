@@ -15,7 +15,7 @@ function Dash() {
             authorization: token,
           }
         });
-        console.log(response.data)
+        console.log(response.data);
         setExpenses(response.data.expense);
         setTotalAmount(response.data.totalAmount);
       } catch (error) {
